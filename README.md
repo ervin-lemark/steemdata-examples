@@ -4,4 +4,5 @@ A collection of examples on how to use SteemData WebAPI to display Steem blockch
 V0.0.1  18.12.2017
 ------------------
 - working example
-- display with fairly basic css with table-like divs 
+- display with fairly basic css with table-like divs
+- live example: http://steemgnome.com/steemdata_example_aggregator_01.html
