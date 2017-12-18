@@ -1,0 +1,194 @@
+<script>
+/**
+ * SteemData WebAPI Example #1 - Posts Metadata Fetching And Display
+ * Ervin Lemark, 18.12.2017
+ * V0.0.1
+ */
+</script>
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SteemData WebAPI Example #1 - Posts Metadata Fetching And Display</title>
+	<link href="divtable.css" rel="stylesheet">
+	<style>
+	body {
+		font-family: Arial;
+		font-size: 100%;
+		margin: 0;
+    	padding: 0;
+	}
+	a {
+		color: orange;
+		text-decoration: none;
+	}
+	a:hover {
+		color: #8a6624;
+		text-decoration: underline;
+	}
+	a.posttitle {
+		font-weight: bold;
+	}
+	table {
+		border-collapse: collapse;
+    	border-spacing: 2px;
+	}
+	.articleline {
+		vertical-align: top;
+    	border-top-width: 1px;
+    	border-top-style: solid;
+    }
+	.thumb {
+		float: left;
+		width: 160px;
+		margin-right: 10px;
+	}
+	</style>
+</head>
+<body>
+
+<h1>SteemData WebAPI Example #1 - Posts Metadata Fetching And Display</h1>
+<h2>by <a href='http://steemit.com/@ervin-lemark' target='_content'>@ervin-lemark</a></h2>
+
+<p id="pagination_top"></p>
+<p id="result"></p>
+<p id="pagination_bottom"></p>
+
+<script>
+/**
+ * Get the value of a querystring
+ * @param  {String} field The field to get the value of
+ * @param  {String} url   The URL to get the value from (optional)
+ * @return {String}       The field value
+ *
+ * Source: https://gomakethings.com/how-to-get-the-value-of-a-querystring-with-native-javascript/
+ */
+var getQueryString = function (field, url) {
+    var href = url ? url : window.location.href;
+    var reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
+    var string = reg.exec(href);
+    return string ? string[1] : null;
+};
+
+/**
+ * Get JSON data from external source with pure javascript, no JSONP needed!
+ * @param  {String} url       The URL to get the JSON data from
+ * @param  {String} callback  Callback function
+ * @return {String}           Data received from external source
+ *
+ * Source: https://stackoverflow.com/questions/9922101/get-json-data-from-external-url-and-display-it-in-a-div-as-plain-text
+ */
+var getJSON = function(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('get', url, true);
+    xhr.responseType = 'json';
+    xhr.onload = function() {
+		var status = xhr.status;
+		if (xhr.readyState == 4 && status == 200) {
+			callback(null, xhr.response);
+		} else {
+			callback(status);
+		}
+    };
+    xhr.send();
+};
+
+/**
+ * initialization
+ */
+// defaults
+var SteemDataUrl = 'https://webapi.steemdata.com/Posts?where={"author":"ervin-lemark"}&sort=-root_comment&page='  // hardcoded url for fetching posts data
+var page = 1;  // initial page
+var postsPerPage = 50;  // posts per page
+var frontend = 'https://steemit.com';  // default frondend for opening links in TODO: make it a parameter and add a dropdown list of available frontends
+var imgPrefix = 'https://steemitimages.com/160x120/';  // image URL prefix with hardcoded size
+var categorySort = '/created/';  // default category sort type when externaly opening the chosen category
+
+// variables
+var txt = '';  // storage of the content
+var items = '';  // fetched items array
+var links = '';  // fetched links array
+var meta = '';  // fetched metadata array
+var pagination = '';  // pagination display
+var thumbnail = '';  // thumbnail display
+
+/* do we have pagination? */
+/* TODO: range checking for last page */
+var whatPage = getQueryString('page');
+if (!isNaN(whatPage)) {
+	if (whatPage > 1) {
+		page = whatPage;
+	}
+}
+
+/* let's fetch external data */
+getJSON(SteemDataUrl + page, function(err, data) {
+    if (err != null) {
+  		/* we have a status cdode of an error */
+    	alert('Something went wrong: ' + err);
+    } else {
+
+	/* reading received data into separate objects */
+    items = data._items;
+    links = data._links;
+    meta = data._meta;
+
+	/* TODO: display total number of posts according to request executed */
+  	/*txt += '<h2>' + meta.total + ' posts so far</h2>';*/
+
+	/* TODO: full pagination */
+  	pagination += '<h3>';
+	if (page > 1) {
+  		pagination += '<a href="?page=' + (page - 1) + '">< Prev</a> | ';
+  	}
+  	pagination += 'Page ' + meta.page + ' | ';
+  	pagination += '<a href="?page=' + (++page) + '">Next ></a>';
+  	pagination += '</h3>';
+
+//    txt += '<table><tr><th>Title</th><th>Created</th><th>Category</th><th>Payout</th><th>Votes</th></tr>';
+		// table header
+		txt += '<div class="divTable blueTable"><div class="divTableHeading"><div class="divTableRow">';
+		txt += '<div class="divTableHead">Title</div>';
+		txt += '<div class="divTableHead">Created</div>';
+		txt += '<div class="divTableHead">Category</div>';
+		txt += '<div class="divTableHead">Payout</div>';
+		txt += '<div class="divTableHead">Votes</div>';
+		txt += '</div></div><div class="divTableBody">';
+
+    for (x in items) {
+//        txt += '<tr class="articleline"><td valign="top">';
+			txt += '<div class="divTableRow"><div class="divTableCell">';  // row start and first cell start
+
+        /* generate thumbnail url */
+			thumbnail = '';
+      if (items[x].json_metadata.hasOwnProperty('image') && items[x].json_metadata.image.length > 0) {
+      	thumbnail = '<img class="thumb" src="' + imgPrefix + items[x].json_metadata.image[0] + '" title="' + items[x].title+ '" />';
+      }
+//        txt += thumbnail + '<a class="posttitle" href="' + frontend + items[x].url + '" target="_content">' + items[x].title + '</a></td>';
+			txt += thumbnail + '<a class="posttitle" href="' + frontend + items[x].url + '" target="_content">' + items[x].title + '</a></div>';
+      txt += '<div class="divTableCell"><a href="' + frontend + categorySort + items[x].category + '" target="_category">' + items[x].category + '</a></div>';
+      txt += '<div class="divTableCell">' + items[x].created + '</div>';
+
+			if (items[x].pending_payout_value.amount != '0') {
+      	txt += '<div class="divTableCell">Pending: ' + items[x].pending_payout_value.amount + ' ' + items[x].pending_payout_value.asset + '</div>';
+      }
+      else {
+      	txt += '<div class="divTableCell">Author: ' + items[x].total_payout_value.amount + items[x].total_payout_value.asset + ', Curators: ' + items[x].curator_payout_value.amount + ' ' + items[x].curator_payout_value.asset + '</div>';
+      }
+      txt += '<div class="divTableCell">' + items[x].net_votes + '</div></div>';  // last cell and row finish
+    }
+    txt += '</div></div>'  // table body and table finish
+
+	/* insert pagination */
+    document.getElementById('pagination_top').innerHTML = pagination;
+    document.getElementById('pagination_bottom').innerHTML = pagination;
+
+    /* insert whole generated table */
+    document.getElementById('result').innerHTML = txt;
+  }
+});
+</script>
+
+
+</body>
+</html>
