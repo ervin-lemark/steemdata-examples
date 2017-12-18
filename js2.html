@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Make a table based on JSON data.</h2>
+
+<p id="demo"></p>
+
+<script>
+var obj, dbParam, xmlhttp, myObj, x, txt = "";
+
+xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+		document.write(this.responseText);
+
+    }
+};
+xmlhttp.open("GET", "https://webapi.steemdata.com/Posts", true);
+xmlhttp.setRequestHeader("Content-type", "application/json");
+xmlhttp.send();
+
+</script>
+
+</body>
+</html>

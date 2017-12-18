@@ -1,0 +1,97 @@
+Test posts
+==========
+1:
+
+This article is being published via stemjs. It is a test as basic as it gets.
+
+Will it work?
+
+<hr>
+
+Ps: I love dogs. This is our Max:
+![image.png](https://res.cloudinary.com/hpiynhbhq/image/upload/v1511997189/x9fkrhudncv6nylansod.png)
+
+
+---
+
+Rudimentary test of posting with steemjs
+***REMOVED***
+
+========================================================================
+2:
+
+Posting with steemjs #2 - checking tags, community and app
+***REMOVED***
+---
+function postArticle()
+{
+  steem.broadcast.comment(
+    document.getElementById('postingKey').value, // posting wif
+    '', // author, leave blank for new post
+    'steemitdev', // first tag
+    document.getElementById('username').value, // username
+    'posting-with-steemjs-2-checking-tags-community-and-app', // permlink
+    document.getElementById('title').value, // Title
+    document.getElementById('article').value, // Body of post
+    // json metadata (additional tags, app name, etc)
+    { tags: ['steemjs', 'landscapephotography', 'javascript', 'teamslovenia'], app: 'teamslovenia/0.0.1', community: 'teamslovenia' },
+    function (err, result) {
+      if (err)
+        alert('Failure! ' + err);
+      else
+        alert('Success!');
+    }
+  );
+}
+---
+This is another test of posting an article without an established frontend and directly with the help of the official #steemjs library.
+
+I have two goals here:
+
+1. to test hove tags are really working.
+
+1. to check the community and app attributes are working.
+
+<hr>
+
+# tags
+
+Post's tags are, in my view, defined twice in the ```steem.broadcast.comment``` call:
+
+- as a parameter,
+- withing json metadata
+
+Which definition takes precedence?
+
+I will send ```steemitdev'``` as a parameter and 
+```{ tags: ['steemjs', 'landscapephotography', 'javascript', 'teamslovenia'], app: 'teamslovenia/0.0.1', community: 'teamslovenia' }```
+for json metadata.
+
+What will come out? my guess is that **steemitdev** will become a category tag. I am defining five tags in total, one plus four.
+
+<hr>
+
+# app and community
+
+As you can see from json metadata field above I am also declaring the following:
+```{ app: 'teamslovenia/0.0.1', community: 'teamslovenia' }```
+
+I'll check with steemd what will come out. I suppose it will be OK and published as I intend it to.
+
+<hr>
+
+Ps: It was a beautiful weekend spent outside in the snow under a blazing sun. Along with great memories, I managed to take lots of photos. My stock of white and sky blue photographs is full for a long time :)
+
+See for yourself. This is Mount Raduha, part of the Grintavci Alps group in North Central Slovenia. Beautiful, isn't it?
+
+![image.png](https://res.cloudinary.com/hpiynhbhq/image/upload/v1512336955/dzpxaaxbd54kcrtat2gj.png)
+
+<hr>
+
+*Photo © 2017 by @ervin-lemark*
+<a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="nofollow noopener"><img src="https://steemitimages.com/0x0/https://i.creativecommons.org/l/by/4.0/88x31.png" alt="Creative Commons License"></a><br>This work is licensed under a <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="nofollow noopener">Creative Commons Attribution 4.0 International License</a>.
+---
+
+
+{"tags":["steemjs","landscapephotography","javascript","teamslovenia"],"app":"teamslovenia/0.0.1","community":"teamslovenia"}
+
