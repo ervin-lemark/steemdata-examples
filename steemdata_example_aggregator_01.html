@@ -1,8 +1,8 @@
 <script>
 /**
  * SteemData WebAPI Example #1 - Posts Metadata Fetching And Display
- * Ervin Lemark, 18.12.2017
- * V0.0.1
+ * Ervin Lemark, 19.12.2017
+ * V0.0.2
  */
 </script>
 
@@ -149,8 +149,8 @@ getJSON(SteemDataUrl + page, function(err, data) {
 		// table header
 		txt += '<div class="divTable blueTable"><div class="divTableHeading"><div class="divTableRow">';
 		txt += '<div class="divTableHead">Title</div>';
-		txt += '<div class="divTableHead">Created</div>';
 		txt += '<div class="divTableHead">Category</div>';
+		txt += '<div class="divTableHead">Created</div>';
 		txt += '<div class="divTableHead">Payout</div>';
 		txt += '<div class="divTableHead">Votes</div>';
 		txt += '</div></div><div class="divTableBody">';
@@ -173,7 +173,9 @@ getJSON(SteemDataUrl + page, function(err, data) {
       	txt += '<div class="divTableCell">Pending: ' + items[x].pending_payout_value.amount + ' ' + items[x].pending_payout_value.asset + '</div>';
       }
       else {
-      	txt += '<div class="divTableCell">Author: ' + items[x].total_payout_value.amount + items[x].total_payout_value.asset + ', Curators: ' + items[x].curator_payout_value.amount + ' ' + items[x].curator_payout_value.asset + '</div>';
+				if (items[x].total_payout_value.amount != '0') {
+      		txt += '<div class="divTableCell">Author: ' + items[x].total_payout_value.amount + ' ' + items[x].total_payout_value.asset + ', Curators: ' + items[x].curator_payout_value.amount + ' ' + items[x].curator_payout_value.asset + '</div>';
+				}
       }
       txt += '<div class="divTableCell">' + items[x].net_votes + '</div></div>';  // last cell and row finish
     }
