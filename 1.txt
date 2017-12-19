@@ -15,13 +15,13 @@ Ps: I love dogs. This is our Max:
 ---
 
 Rudimentary test of posting with steemjs
-5JN7NyUwcdYxmyGgdFWyfeAxGU7kZLhG1ze557YZaKBWHQFGKw8
+xxx private key here xxx
 
 ========================================================================
 2:
 
 Posting with steemjs #2 - checking tags, community and app
-5JN7NyUwcdYxmyGgdFWyfeAxGU7kZLhG1ze557YZaKBWHQFGKw8
+xxx private key here xxx
 ---
 function postArticle()
 {
@@ -88,7 +88,7 @@ See for yourself. This is Mount Raduha, part of the Grintavci Alps group in Nort
 
 <hr>
 
-*Photo © 2017 by @ervin-lemark*
+*Photo Â© 2017 by @ervin-lemark*
 <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="nofollow noopener"><img src="https://steemitimages.com/0x0/https://i.creativecommons.org/l/by/4.0/88x31.png" alt="Creative Commons License"></a><br>This work is licensed under a <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="nofollow noopener">Creative Commons Attribution 4.0 International License</a>.
 ---
 
